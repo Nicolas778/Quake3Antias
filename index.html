@@ -50,6 +50,7 @@
             border: 2px solid #00BFFF;
             box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
             margin-bottom: 15px;
+            background-color: #000;
         }
         .map-name { font-size: 1.3em; font-weight: bold; margin-top: 10px; }
         .info-label { font-size: 1.1em; margin-bottom: 8px; }
@@ -72,7 +73,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="logo.png" alt="Q3Antias Logo" class="logo">
+        <img src="quake3_logo.jpg" alt="Q3Antias Logo" class="logo">
         <div class="server-title">Q3ANTIAS.NET</div>
     </div>
 
@@ -91,20 +92,24 @@
                 <div class="info-value" style="color: #00FF00;">Online</div>
                 <div class="divider"></div>
                 <div class="info-label">Players</div>
-                <div class="info-value"><span id="playerCount">0</span>/<span id="maxPlayers">64</span></div>
+                <div class="info-value"><span id="playerCount">13</span>/<span id="maxPlayers">64</span></div>
                 <div class="divider"></div>
                 <div class="info-label">Game Type</div>
                 <div class="info-value">FFA</div>
             </div>
             
             <div class="map-display">
-                <img src="" alt="Current Map" class="map-image" id="mapImage">
-                <div class="map-name" id="mapName">Loading...</div>
+                <img src="maps/ztn3tourney1.jpg" 
+                     alt="Current Map" 
+                     class="map-image" 
+                     id="mapImage"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/000000/00BFFF?text=Map+Not+Found';">
+                <div class="map-name" id="mapName">ztn3tourney1</div>
             </div>
             
             <div class="player-info">
                 <div class="info-label">Current Map</div>
-                <div class="info-value" style="font-size: 1em;" id="currentMap">-</div>
+                <div class="info-value" style="font-size: 1em;" id="currentMap">ztn3tourney1</div>
                 <div class="divider"></div>
                 <div class="info-label">Last Update</div>
                 <div class="info-value" style="font-size: 1em;" id="lastUpdate">Just now</div>
@@ -113,13 +118,13 @@
     </div>
 
     <script>
-        // Map image database - add all your map images here
+        // Map image database
         const mapImages = {
             'ztn3tourney1': 'maps/ztn3tourney1',
             'spirit3t1': 'maps/spirit3t1',
             'uberkill': 'maps/uberkill',
             'pro-q3tourney4': 'maps/pro-q3tourney4',
-            'q3arenax': 'maps/q3arenax.',
+            'q3arenax': 'maps/q3arenax',
             'pro-q3dm6': 'maps/pro-q3dm6',
             'ztn3dm2': 'maps/ztn3dm2',
             'oxodm89': 'maps/oxodm89',
@@ -130,7 +135,7 @@
             'bardok-cpma2': 'maps/bardok-cpma2',
             'p1rate-overek': 'maps/p1rate-overek',
             'cybdmpro2': 'maps/cybdmpro2',
-            'pillcity': 'maps/pillcity.',
+            'pillcity': 'maps/pillcity',
             'q3dm1': 'maps/q3dm1',
             'q3dm2': 'maps/q3dm2',
             'q3dm3': 'maps/q3dm3',
@@ -147,6 +152,7 @@
             'q3dm14': 'maps/q3dm14',
             'q3dm15': 'maps/q3dm15',
             'q3dm16': 'maps/q3dm16',
+            'default': 'maps/quake3_logo'
         };
 
         async function fetchServerStatus() {
@@ -154,14 +160,12 @@
                 const response = await fetch('server_status.php');
                 const data = await response.json();
                 
-                // Update server info
                 document.getElementById('statusIndicator').style.backgroundColor = data.online ? '#00FF00' : '#FF0000';
                 document.getElementById('statusIndicator').style.boxShadow = data.online ? '0 0 10px #00FF00' : '0 0 10px #FF0000';
                 document.getElementById('serverName').textContent = data.hostname;
                 document.getElementById('playerCount').textContent = data.players;
                 document.getElementById('maxPlayers').textContent = data.max_players;
                 
-                // Update map
                 const mapName = data.map.toLowerCase();
                 const mapImageSrc = mapImages[mapName] || mapImages['default'];
                 
@@ -173,11 +177,9 @@
             } catch (error) {
                 console.error('Error fetching server status:', error);
                 document.getElementById('statusIndicator').style.backgroundColor = '#FF0000';
-                document.getElementById('mapName').textContent = 'Connection failed';
             }
         }
 
-        // Fetch immediately and then every 30 seconds
         fetchServerStatus();
         setInterval(fetchServerStatus, 30000);
     </script>
