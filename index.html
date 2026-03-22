@@ -3,301 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q3Antias - Quake 3 Servers</title>
+    <title>Q3Antias.NET - Quake 3 Servers</title>
+    <title>Q3Antias.cl - Quake 3 Servers</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: #000;
-            color: #00FFFF;
-            font-family: 'Courier New', monospace;
-            padding: 20px;
-        }
-        
-        .server-container {
-            border: 2px solid #008FFF;
-            background: #001122;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .server-header {
-            padding: 15px 20px;
-            border-bottom: 2px solid #008FFF;
-        }
-        
-        .server-header h2 {
-            color: #008FFF;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .server-address {
-            border: 1px dashed #008FFF;
-            padding: 8px 12px;
-            display: inline-block;
-            color: #00FFFF;
-            font-size: 14px;
-        }
-        
-        .server-content {
-            display: grid;
-            grid-template-columns: 250px 300px 1fr;
-            min-height: 400px;
-        }
-        
-        .server-info, .map-section, .player-section {
-            padding: 20px;
-            border-right: 1px solid #008FFF;
-        }
-        
-        .info-section {
-            margin-bottom: 20px;
-        }
-        
-        .info-section h3 {
-            color: #008FFF;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-        
-        .info-section .value {
-            color: #00FFFF;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .info-section .online {
-            color: #00FF00;
-        }
-        
-        .map-display {
-            border: 2px solid #008FFF;
-            padding: 10px;
-            display: inline-block;
-        }
-        
-        .map-image {
-            display: block;
-            max-width: 250px;
-            max-height: 250px;
-            width: auto;
-            height: auto;
-        }
-        
-        .map-name {
-            color: #008FFF;
-            text-align: center;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-        
-        .player-section h3 {
-            color: #008FFF;
-            font-size: 16px;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 1px dashed #004488;
-        }
-        
-        .player-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .player-list div {
-            padding: 8px 10px;
-            color: #00FFFF;
-            border-bottom: 1px dashed #004488;
-            font-size: 14px;
-        }
-        
-        .player-list div:hover {
-            background: rgba(0, 128, 255, 0.2);
-        }
-        
-        .player-list div:last-child {
-            border-bottom: none;
-        }
-        
-        .last-update {
-            color: #666;
-            font-size: 12px;
-            margin-top: 10px;
-        }
-    </style>
+@@ -160,107 +160,107 @@
 </head>
-
-<script>
-async function loadServerData() {
-    try {
-        const response = await fetch('server-data.json?t=' + new Date().getTime());
-        const data = await response.json();
-        
-        // Update server status
-        const statusEl = document.getElementById('serverStatus');
-        if (statusEl) {
-            statusEl.textContent = data.status;
-            statusEl.style.color = data.status === 'Online' ? '#00FF00' : '#FF0000';
-        }
-        
-        // Update player count
-        const playerCountEl = document.getElementById('playerCount');
-        if (playerCountEl) {
-            playerCountEl.textContent = `${data.playerCount}/${data.maxPlayers}`;
-        }
-        
-        // Update game type
-        const gameTypeEl = document.getElementById('gameType');
-        if (gameTypeEl) {
-            gameTypeEl.textContent = data.gameType;
-        }
-        
-        // Update map
-        const mapNameEl = document.getElementById('mapName');
-        const currentMapEl = document.getElementById('currentMapName');
-        const mapImageEl = document.getElementById('mapImage');
-        
-        if (mapNameEl) mapNameEl.textContent = data.map;
-        if (currentMapEl) currentMapEl.textContent = data.map;
-        if (mapImageEl) {
-            mapImageEl.src = `maps/${data.map}.jpg`;
-        }
-        
-        // Update player list
-        const playerListEl = document.getElementById('playerList');
-        if (playerListEl) {
-            if (data.players && data.players.length > 0) {
-                playerListEl.innerHTML = '';
-                data.players.forEach(player => {
-                    const li = document.createElement('div');
-                    div.textContent = player;
-                    div.style.padding = '5px';
-                    div.style.borderBottom = '1px dashed #004488';
-                    div.style.color = '#00FFFF';
-                    playerListEl.appendChild(div);
-                });
-            } else {
-                playerListEl.innerHTML = '<div style="color: #666; padding: 5px;">No players online</div>';
-            }
-        }
-        
-        // Update last update time
-        const lastUpdateEl = document.getElementById('lastUpdate');
-        if (lastUpdateEl) {
-            const updateTime = new Date(data.lastUpdate).toLocaleTimeString();
-            lastUpdateEl.textContent = `Last Update: ${updateTime}`;
-        }
-        
-    } catch (error) {
-        console.error('Error loading server data:', error);
-    }
-}
-
-// Load data when page loads
-loadServerData();
-// Refresh every 30 seconds
-setInterval(loadServerData, 30000);
-</script>
-    
 <body>
+    <div class="header">
+        <h1>Q3ANTIAS.NET</h1>
+        <h1>Q3ANTIAS.cl</h1>
+    </div>
+
     <div class="server-container">
         <div class="server-header">
             <h2>Antias FFA</h2>
-            <div class="server-address">127.0.0.1:27961</div>
+            <div class="server-address">videos-shut.gl.at.ply.gg:5291</div>
         </div>
-        
+
         <div class="server-content">
-            <div class="server-info">
-                <div class="info-section">
-                    <h3>Server Status</h3>
-                    <div class="value online" id="serverStatus">Online</div>
+            <div class="left-panel">
+                <div class="server-info">
+                    <div class="info-section">
+                        <h3>Server Status</h3>
+                        <div class="value" id="serverStatus">Loading...</div>
+                    </div>
+
+                    <div class="info-section">
+                        <h3>Players</h3>
+                        <div class="value" id="playerCount">--/64</div>
+                    </div>
+
+                    <div class="info-section">
+                        <h3>Game Type</h3>
+                        <div class="value" id="gameType">FFA</div>
+                    </div>
                 </div>
-                
-                <div class="info-section">
-                    <h3>Players</h3>
-                    <div class="value" id="playerCount">13/64</div>
-                </div>
-                
-                <div class="info-section">
-                    <h3>Game Type</h3>
-                    <div class="value" id="gameType">FFA</div>
+
+                <div class="map-section">
+                    <div class="map-display">
+                        <img src="maps/ztn3tourney1.jpg" alt="Current Map" class="map-image" id="mapImage"
+                             onerror="this.src='https://via.placeholder.com/300x300/000000/008FFF?text=Map+Not+Found'">
+                    </div>
+                    <div class="map-name" id="mapName">Loading...</div>
                 </div>
             </div>
-            
-            <div class="map-section">
-                <div class="map-display">
-                    <img src="maps/q3dm12.jpg" alt="Current Map" class="map-image" id="mapImage"
-                         onerror="this.src='https://via.placeholder.com/250x250/000000/008FFF?text=Map+Not+Found'">
-                </div>
-                <div class="map-name" id="mapName">q3dm12</div>
-            </div>
-            
+
             <div class="player-section">
-                <h3>Current Map<br><span id="currentMapName">q3dm12</span></h3>
+                <h3>Current Map<br><span id="currentMapName">ztn3tourney1</span></h3>
                 <h3 style="margin-top: 20px;">Players Online</h3>
-                <div class="player-list" id="playerList">
-                    <div style="color: #666;">Loading players...</div>
-                </div>
+                <ul class="player-list" id="playerList">
+                    <li>Loading players...</li>
+                </ul>
                 <div class="last-update" id="lastUpdate">Last Update: --</div>
             </div>
         </div>
     </div>
-    
+
     <script>
     async function loadServerData() {
         try {
             // Add timestamp to prevent caching
             const response = await fetch('server-data.json?t=' + new Date().getTime());
             const data = await response.json();
-            
+
             // Update server status
             const statusEl = document.getElementById('serverStatus');
             statusEl.textContent = data.status;
             statusEl.className = 'value ' + (data.status === 'Online' ? 'online' : 'offline');
-            
+
             // Update player count
             document.getElementById('playerCount').textContent = 
                 `${data.playerCount}/${data.maxPlayers}`;
-            
+
             // Update game type
             document.getElementById('gameType').textContent = data.gameType || 'FFA';
-            
+
             // Update map
             document.getElementById('mapName').textContent = data.map;
             document.getElementById('currentMapName').textContent = data.map;
             document.getElementById('mapImage').src = `maps/${data.map}.jpg`;
-            
+
             // Update player list
             const playerList = document.getElementById('playerList');
             if (data.players && data.players.length > 0) {
                 playerList.innerHTML = '';
                 data.players.forEach(player => {
-                    const div = document.createElement('div');
-                    div.textContent = player;
-                    playerList.appendChild(div);
+                    const li = document.createElement('li');
+                    li.textContent = player;
+                    playerList.appendChild(li);
                 });
             } else {
-                playerList.innerHTML = '<div style="color: #666;">No players online</div>';
+                playerList.innerHTML = '<li style="color: #666;">No players online</li>';
             }
-            
+
             // Update last update time
             const updateTime = new Date(data.lastUpdate).toLocaleTimeString();
             document.getElementById('lastUpdate').textContent = `Last Update: ${updateTime}`;
-            
+
         } catch (error) {
             console.error('Error loading server data:', error);
+            document.getElementById('serverStatus').textContent = 'Offline';
+            document.getElementById('serverStatus').className = 'value offline';
         }
     }
-    
+
     // Load data when page loads
     loadServerData();
-    
+
     // Refresh every 30 seconds
     setInterval(loadServerData, 30000);
     </script>
