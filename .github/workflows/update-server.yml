@@ -22,15 +22,15 @@ def query_quake3_server(host, port):
         for line in lines:
             line = line.strip()
             
-            # Skip empty lines
+            
             if not line:
                 continue
             
-            # Skip the infoResponse header
+            
             if 'X' in line.lower():
                 continue
             
-            # Parse server info (key-value pairs starting with \)
+            
             if line.startswith('\\'):
                 parts = line.split('\\')
                 for i in range(1, len(parts), 2):
