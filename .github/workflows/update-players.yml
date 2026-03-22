@@ -15,38 +15,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
 
-      - name: Install Quake 3 Query Tool
+      - name: Install Gamedig
         run: npm install gamedig
 
-      - name: Query Server & Update JSON
-        run: |
-          node -e "
-          const Gamedig = require('gamedig');
-          const fs = require('fs');
-          (async () => {
-            try {
-              const state = await Gamedig.query({
-                type: 'quake3',
-                host: 'videos-shut.gl.at.ply.gg',
-                port: 5291
-              });
-              const data = {
-                status: 'Online',
-                players: state.players.map(p => p.name),
-                playerCount: state.players.length,
-                maxPlayers: state.maxplayers,
-                map: state.map,
-                lastUpdate: new Date().toISOString()
-              };
-              fs.writeFileSync('server-data.json', JSON.stringify(data, null, 2));
-              console.log('Server data updated successfully');
-            } catch (error) {
-              console.error('Query failed:', error.message);
-              process.exit(1);
-            }
-          })();"
+      - name: Run Server Query
+        run: node query-server.js
 
       - name: Commit and Push Changes
         run: |
