@@ -2,8 +2,8 @@ name: Update Server Status
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Runs every 5 minutes
-  workflow_dispatch:       # Allows you to run it manually for testing
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
   update:
@@ -25,24 +25,28 @@ jobs:
           node -e "
           const Gamedig = require('gamedig');
           const fs = require('fs');
-          Gamedig.query({
-              type: 'quake3',
-              host: 'videos-shut.gl.at.ply.gg',
-              port: 5291
-          }).then((state) => {
+          (async () => {
+            try {
+              const state = await Gamedig.query({
+                type: 'quake3',
+                host: 'videos-shut.gl.at.ply.gg',
+                port: 5291
+              });
               const data = {
-                  status: 'Online',
-                  players: state.players.map(p => p.name),
-                  playerCount: state.players.length,
-                  maxPlayers: state.maxplayers,
-                  map: state.map,
-                  lastUpdate: new Date().toISOString()
+                status: 'Online',
+                players: state.players.map(p => p.name),
+                playerCount: state.players.length,
+                maxPlayers: state.maxplayers,
+                map: state.map,
+                lastUpdate: new Date().toISOString()
               };
               fs.writeFileSync('server-data.json', JSON.stringify(data, null, 2));
-          }).catch((error) => {
-              console.log('Server offline or query failed');
+              console.log('Server data updated successfully');
+            } catch (error) {
+              console.error('Query failed:', error.message);
               process.exit(1);
-          });"
+            }
+          })();"
 
       - name: Commit and Push Changes
         run: |
