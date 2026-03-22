@@ -148,40 +148,6 @@ async function loadServerData() {
         console.error('Error loading server data:', error);
     }
 }
-
-// Load data when page loads
-loadServerData();
-
-// Refresh every 30 seconds
-setInterval(loadServerData, 30000);
-</script>
-        .map-image {
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
-            object-fit: cover;
-            border: 2px solid #00BFFF;
-            box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
-            margin-bottom: 15px;
-            background-color: #000;
-        }
-        .map-name { font-size: 1.3em; font-weight: bold; margin-top: 10px; }
-        .info-label { font-size: 1.1em; margin-bottom: 8px; }
-        .info-value { font-size: 1.4em; font-weight: bold; margin-bottom: 20px; }
-        .divider { border-top: 1px dashed #00BFFF; margin: 20px 0; }
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #00FF00;
-            box-shadow: 0 0 10px #00FF00;
-            margin-right: 10px;
-        }
-        @media (max-width: 768px) {
-            .server-content { grid-template-columns: 1fr; }
-            .map-display { border-left: none; border-right: none; border-top: 1px solid #00BFFF; border-bottom: 1px solid #00BFFF; }
-        }
     </style>
 </head>
 <body>
