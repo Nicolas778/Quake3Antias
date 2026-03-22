@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q3Antias.NET - Quake 3 Servers</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <title>Q3Antias - Quake 3 Servers</title>
     <style>
         * {
             margin: 0;
@@ -22,11 +22,6 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
-        }
-        
-        .header img {
-            width: 100px;
-            margin-bottom: 10px;
         }
         
         .header h1 {
@@ -63,11 +58,17 @@
         
         .server-content {
             display: grid;
-            grid-template-columns: 250px 300px 1fr;
-            min-height: 400px;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
         }
         
-        .server-info {
+        .left-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-right: 1px solid #008FFF;
+        }
+        
+        .server-info, .map-section {
             padding: 20px;
             border-right: 1px solid #008FFF;
         }
@@ -92,25 +93,20 @@
             color: #00FF00;
         }
         
-        .map-section {
-            padding: 20px;
-            border-right: 1px solid #008FFF;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .info-section .offline {
+            color: #FF0000;
         }
         
         .map-display {
             border: 2px solid #008FFF;
             padding: 10px;
-            margin-bottom: 10px;
+            display: inline-block;
         }
         
         .map-image {
             display: block;
-            max-width: 250px;
-            max-height: 250px;
+            max-width: 300px;
+            max-height: 300px;
             width: auto;
             height: auto;
         }
@@ -124,8 +120,8 @@
         
         .player-section {
             padding: 20px;
-            overflow-y: auto;
             max-height: 400px;
+            overflow-y: auto;
         }
         
         .player-section h3 {
@@ -155,23 +151,16 @@
             border-bottom: none;
         }
         
-        .player-section::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .player-section::-webkit-scrollbar-track {
-            background: #000;
-        }
-        
-        .player-section::-webkit-scrollbar-thumb {
-            background: #008FFF;
+        .last-update {
+            color: #666;
+            font-size: 12px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="logo.png" alt="Q3Antias Logo">
-        <h1>Q3ANTIAS</h1>
+        <h1>Q3ANTIAS.NET</h1>
     </div>
     
     <div class="server-container">
@@ -181,36 +170,40 @@
         </div>
         
         <div class="server-content">
-            <div class="server-info">
-                <div class="info-section">
-                    <h3>Server Status</h3>
-                    <div class="value online" id="serverStatus">Online</div>
+            <div class="left-panel">
+                <div class="server-info">
+                    <div class="info-section">
+                        <h3>Server Status</h3>
+                        <div class="value" id="serverStatus">Loading...</div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Players</h3>
+                        <div class="value" id="playerCount">--/64</div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>Game Type</h3>
+                        <div class="value" id="gameType">FFA</div>
+                    </div>
                 </div>
                 
-                <div class="info-section">
-                    <h3>Players</h3>
-                    <div class="value" id="playerCount">1/12</div>
+                <div class="map-section">
+                    <div class="map-display">
+                        <img src="maps/ztn3tourney1.jpg" alt="Current Map" class="map-image" id="mapImage"
+                             onerror="this.src='https://via.placeholder.com/300x300/000000/008FFF?text=Map+Not+Found'">
+                    </div>
+                    <div class="map-name" id="mapName">Loading...</div>
                 </div>
-                
-                <div class="info-section">
-                    <h3>Game Type</h3>
-                    <div class="value" id="gameType">FFA</div>
-                </div>
-            </div>
-            
-            <div class="map-section">
-                <div class="map-display">
-                    <img src="maps/q3dm12.jpg" alt="Current Map" class="map-image" id="mapImage"
-                         onerror="this.src='https://via.placeholder.com/250x250/000000/008FFF?text=Map+Not+Found'">
-                </div>
-                <div class="map-name" id="mapName">q3dm12</div>
             </div>
             
             <div class="player-section">
-                <h3>Players Online (<span id="playerListCount">1</span>/12)</h3>
+                <h3>Current Map<br><span id="currentMapName">ztn3tourney1</span></h3>
+                <h3 style="margin-top: 20px;">Players Online</h3>
                 <ul class="player-list" id="playerList">
                     <li>Loading players...</li>
                 </ul>
+                <div class="last-update" id="lastUpdate">Last Update: --</div>
             </div>
         </div>
     </div>
@@ -218,16 +211,25 @@
     <script>
     async function loadServerData() {
         try {
+            // Add timestamp to prevent caching
             const response = await fetch('server-data.json?t=' + new Date().getTime());
             const data = await response.json();
+            
+            // Update server status
+            const statusEl = document.getElementById('serverStatus');
+            statusEl.textContent = data.status;
+            statusEl.className = 'value ' + (data.status === 'Online' ? 'online' : 'offline');
             
             // Update player count
             document.getElementById('playerCount').textContent = 
                 `${data.playerCount}/${data.maxPlayers}`;
-            document.getElementById('playerListCount').textContent = data.playerCount;
+            
+            // Update game type
+            document.getElementById('gameType').textContent = data.gameType || 'FFA';
             
             // Update map
             document.getElementById('mapName').textContent = data.map;
+            document.getElementById('currentMapName').textContent = data.map;
             document.getElementById('mapImage').src = `maps/${data.map}.jpg`;
             
             // Update player list
@@ -242,13 +244,21 @@
             } else {
                 playerList.innerHTML = '<li style="color: #666;">No players online</li>';
             }
+            
+            // Update last update time
+            const updateTime = new Date(data.lastUpdate).toLocaleTimeString();
+            document.getElementById('lastUpdate').textContent = `Last Update: ${updateTime}`;
+            
         } catch (error) {
             console.error('Error loading server data:', error);
+            document.getElementById('serverStatus').textContent = 'Offline';
+            document.getElementById('serverStatus').className = 'value offline';
         }
     }
     
-    // Load on page load
+    // Load data when page loads
     loadServerData();
+    
     // Refresh every 30 seconds
     setInterval(loadServerData, 30000);
     </script>
