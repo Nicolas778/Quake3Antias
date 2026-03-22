@@ -12,16 +12,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          node-version: '18'
+          python-version: '3.9'
 
-      - name: Install Gamedig
-        run: npm install gamedig
-
-      - name: Run Server Query
-        run: node query-server.js
+      - name: Query Server
+        run: python query-server.py
 
       - name: Commit and Push Changes
         run: |
