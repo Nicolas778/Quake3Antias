@@ -58,3 +58,5 @@ with open('server-data.json', 'w') as f:
     json.dump(result, f, indent=2)
 
 print(f"✓ Updated: {result['playerCount']}/{result['maxPlayers']} on {result['map']}")
+print(f"Map: {result['map']}")
+print(f"Players: {len(result['players'])} players")
