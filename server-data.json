@@ -1,11 +1,9 @@
 {
-  "status": "Online",
-  "map": "q3dm12",
-  "players": [
-    "\u00ff\u00ff\u00ff\u00ffinfoResponse"
-  ],
-  "playerCount": 1,
-  "maxPlayers": 12,
+  "status": "Offline",
+  "map": "unknown",
+  "players": [],
+  "playerCount": 0,
+  "maxPlayers": 64,
   "gameType": "FFA",
-  "lastUpdate": "2026-03-22T07:48:44.155521Z"
+  "lastUpdate": "2026-03-22T08:32:08.657936Z"
 }
