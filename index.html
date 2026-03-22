@@ -158,6 +158,79 @@
         }
     </style>
 </head>
+
+<script>
+async function loadServerData() {
+    try {
+        const response = await fetch('server-data.json?t=' + new Date().getTime());
+        const data = await response.json();
+        
+        // Update server status
+        const statusEl = document.getElementById('serverStatus');
+        if (statusEl) {
+            statusEl.textContent = data.status;
+            statusEl.style.color = data.status === 'Online' ? '#00FF00' : '#FF0000';
+        }
+        
+        // Update player count
+        const playerCountEl = document.getElementById('playerCount');
+        if (playerCountEl) {
+            playerCountEl.textContent = `${data.playerCount}/${data.maxPlayers}`;
+        }
+        
+        // Update game type
+        const gameTypeEl = document.getElementById('gameType');
+        if (gameTypeEl) {
+            gameTypeEl.textContent = data.gameType;
+        }
+        
+        // Update map
+        const mapNameEl = document.getElementById('mapName');
+        const currentMapEl = document.getElementById('currentMapName');
+        const mapImageEl = document.getElementById('mapImage');
+        
+        if (mapNameEl) mapNameEl.textContent = data.map;
+        if (currentMapEl) currentMapEl.textContent = data.map;
+        if (mapImageEl) {
+            mapImageEl.src = `maps/${data.map}.jpg`;
+        }
+        
+        // Update player list
+        const playerListEl = document.getElementById('playerList');
+        if (playerListEl) {
+            if (data.players && data.players.length > 0) {
+                playerListEl.innerHTML = '';
+                data.players.forEach(player => {
+                    const li = document.createElement('div');
+                    div.textContent = player;
+                    div.style.padding = '5px';
+                    div.style.borderBottom = '1px dashed #004488';
+                    div.style.color = '#00FFFF';
+                    playerListEl.appendChild(div);
+                });
+            } else {
+                playerListEl.innerHTML = '<div style="color: #666; padding: 5px;">No players online</div>';
+            }
+        }
+        
+        // Update last update time
+        const lastUpdateEl = document.getElementById('lastUpdate');
+        if (lastUpdateEl) {
+            const updateTime = new Date(data.lastUpdate).toLocaleTimeString();
+            lastUpdateEl.textContent = `Last Update: ${updateTime}`;
+        }
+        
+    } catch (error) {
+        console.error('Error loading server data:', error);
+    }
+}
+
+// Load data when page loads
+loadServerData();
+// Refresh every 30 seconds
+setInterval(loadServerData, 30000);
+</script>    
+    
 <body>
     <div class="header">
         <h1>Q3ANTIAS.cl</h1>
@@ -208,59 +281,5 @@
         </div>
     </div>
     
-    <script>
-    async function loadServerData() {
-        try {
-            // Add timestamp to prevent caching
-            const response = await fetch('server-data.json?t=' + new Date().getTime());
-            const data = await response.json();
-            
-            // Update server status
-            const statusEl = document.getElementById('serverStatus');
-            statusEl.textContent = data.status;
-            statusEl.className = 'value ' + (data.status === 'Online' ? 'online' : 'offline');
-            
-            // Update player count
-            document.getElementById('playerCount').textContent = 
-                `${data.playerCount}/${data.maxPlayers}`;
-            
-            // Update game type
-            document.getElementById('gameType').textContent = data.gameType || 'FFA';
-            
-            // Update map
-            document.getElementById('mapName').textContent = data.map;
-            document.getElementById('currentMapName').textContent = data.map;
-            document.getElementById('mapImage').src = `maps/${data.map}.jpg`;
-            
-            // Update player list
-            const playerList = document.getElementById('playerList');
-            if (data.players && data.players.length > 0) {
-                playerList.innerHTML = '';
-                data.players.forEach(player => {
-                    const li = document.createElement('li');
-                    li.textContent = player;
-                    playerList.appendChild(li);
-                });
-            } else {
-                playerList.innerHTML = '<li style="color: #666;">No players online</li>';
-            }
-            
-            // Update last update time
-            const updateTime = new Date(data.lastUpdate).toLocaleTimeString();
-            document.getElementById('lastUpdate').textContent = `Last Update: ${updateTime}`;
-            
-        } catch (error) {
-            console.error('Error loading server data:', error);
-            document.getElementById('serverStatus').textContent = 'Offline';
-            document.getElementById('serverStatus').className = 'value offline';
-        }
-    }
-    
-    // Load data when page loads
-    loadServerData();
-    
-    // Refresh every 30 seconds
-    setInterval(loadServerData, 30000);
-    </script>
 </body>
 </html>
