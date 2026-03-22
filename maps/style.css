@@ -1,75 +1,93 @@
 /*
-######### PARAGON WAS HERE ===> 2024 #########
+
 */
 @font-face {
     font-family: 'unispace_ru';
-    src: url('/monitor/fonts/unispace_ru.ttf')  format('truetype');
+    src: url('/monitor/fonts/unispace_ru.ttf') format('truetype');
 }
 
 * {
     font-family: 'unispace_ru', Verdana, sans-serif;
 }
 
-/* gameq style - START */
-
-table {
-    border: 1px solid #000;
-    background-color: #DDD;
-    border-spacing:1px 1px;
+/* Global Blue Luminous Text Style */
+body {
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF, 0 0 20px #00BFFF, 0 0 30px #0000FF;
+    margin: 0px;
+    background: url("/monitor/images/bg.png");
+    background-color: #000000;
 }
+
+/* gameq style - START */
+table {
+    border: 1px solid #00BFFF;
+    background-color: #000000;
+    border-spacing: 1px 1px;
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+}
+
 table thead {
     font-weight: bold;
-    background-color: #CCC;
+    background-color: #000000;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
 }
+
 table tr.uneven td {
-    background-color:#FFF;
+    background-color: #0a0a0a;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
 }
+
 table td {
     padding: 5px 8px;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
 }
+
 table tbody {
-    background-color: #F9F9F9;
+    background-color: #000000;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
 }
+
 .note {
-    color: #333;
-    font-style:italic;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
+    font-style: italic;
 }
+
 .key-always {
-    color:red;
-    font-weight:bold;
+    color: #00FFFF;
+    text-shadow: 0 0 15px #00FFFF, 0 0 30px #00BFFF;
+    font-weight: bold;
 }
+
 .key-normalise {
-    color:red;
+    color: #00FFFF;
+    text-shadow: 0 0 15px #00FFFF;
 }
 /* gameq style - END */
 
-
 /* ***********************************
 byman - 	START
-************************************ */
-body {
-    color:#e0e0e0;
-    font-family:"unispace_ru";
-    text-shadow:-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* Simulating Text Stroke */
-    margin:0px;
-    background: url("/monitor/images/bg.png");
-}
-
+************************************/
 #maingameq header {
-    width:100%;
-    height:160px;
+    width: 100%;
+    height: 160px;
 }
 
 #maingameq header .left {
     float: left;
     width: calc(20% - 20px);
     padding-top: 20px;
-}			
+}
 
 #maingameq header .center {
-    float:left;
-    width:60%;				
-}			
+    float: left;
+    width: 60%;
+}
 
 #maingameq header .right {
     float: right;
@@ -79,16 +97,19 @@ body {
 }
 
 #maingameq header .center h1 {
-    text-align: center;								
-} 
+    text-align: center;
+    color: #00BFFF;
+    text-shadow: 0 0 20px #00BFFF, 0 0 40px #0000FF;
+    font-size: 2.5em;
+}
 
 #maingameq header .right h3 {
     padding-top: 10px;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.13) !important;
-    background: -webkit-linear-gradient(#eee, #333);
+    text-shadow: 0 0 10px #00BFFF, 0 0 20px #0000FF !important;
+    background: -webkit-linear-gradient(#00BFFF, #0066FF);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent
-} 
+    -webkit-text-fill-color: transparent;
+}
 
 .boxes {
     display: flex;
@@ -96,14 +117,15 @@ body {
     flex-wrap: wrap;
 }
 
-.boxes>div {
-    /* zoom: 0.9; */
-    background: #ffffff0a;
+.boxes > div {
+    background: #000000;
     margin-bottom: 20px;
+    border: 2px solid #00BFFF;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
 }
 
-.boxes>div {
-    max-width:300px;
+.boxes > div {
+    max-width: 300px;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -111,221 +133,227 @@ body {
 .boxes h3 {
     margin: 2px 0;
     text-align: center;
-    /* text-shadow: 2px 2px 2px black; */
     border-radius: 8px;
-    padding:5px;
-    /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), inset 4px 4px 22px #000; */
+    padding: 5px;
+    color: #00BFFF;
+    text-shadow: 0 0 15px #00BFFF, 0 0 30px #0000FF;
 }
 
-.frame{
-    margin:6px 0; 
+.frame {
+    margin: 6px 0;
     padding: 6px;
-    /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), inset 4px 4px 22px #000; */
     border-radius: 6px;
-    width:240px;
     width: calc(100% - 12px);
-    height:450px;				
-    background-color: rgba(17, 17, 17, 0.47);
+    height: 450px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #00BFFF;
+    box-shadow: inset 0 0 20px rgba(0, 191, 255, 0.3);
 }
 
-@media (max-width: 2560px) {.boxes>div{width: calc(14% - 20px);		} }
-@media (max-width: 1920px) {.boxes>div{width: calc(16% - 20px);		} }
-@media (max-width: 1600px) {.boxes>div{width: calc(20% - 20px);		} }
-@media (max-width: 1200px) {.boxes>div{width: calc(25% - 20px);		} }
-@media (max-width: 965px)  {.boxes>div{width: calc(33% - 20px);		} }
-@media (max-width: 768px)  {.boxes>div{width: calc(50% - 20px);		} }
-@media (max-width: 480px)  {.boxes>div{width: calc(100% - 20px);		} }
+@media (max-width: 2560px) { .boxes > div { width: calc(14% - 20px); } }
+@media (max-width: 1920px) { .boxes > div { width: calc(16% - 20px); } }
+@media (max-width: 1600px) { .boxes > div { width: calc(20% - 20px); } }
+@media (max-width: 1200px) { .boxes > div { width: calc(25% - 20px); } }
+@media (max-width: 965px) { .boxes > div { width: calc(33% - 20px); } }
+@media (max-width: 768px) { .boxes > div { width: calc(50% - 20px); } }
+@media (max-width: 480px) { .boxes > div { width: calc(100% - 20px); } }
 
-
-#maingameq figure{
+#maingameq figure {
     margin: 6px;
     padding: 6px;
-    /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.5), inset 4px 4px 22px #000; */
     max-height: calc(180px + 12px);
+    border: 1px solid #00BFFF;
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
 }
 
-#maingameq figcaption{
+#maingameq figcaption {
     text-align: center;
-    background: #ffffff20;
+    background: #000000;
     font-size: 14px;
     padding: 5px 2px 2px 2px;
     height: 20px;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
 }
 
-.address{
+.address {
     text-align: center;
     margin: 0px;
     font-size: 13px;
-}			
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
+}
 
-.players ul{
+.players ul {
     margin: 6px 0;
-    font-size:smaller;				
+    font-size: smaller;
     overflow: auto;
     height: 170px;
     -webkit-overflow-scrolling: touch;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
 }
 
-.playersTitle{
+.playersTitle {
     margin: 6px 0;
     text-align: center;
-    /* background: #ffffff20; */
     padding: 3px;
+    color: #00BFFF;
+    text-shadow: 0 0 15px #00BFFF;
 }
 
 .q3playercolored {
-    display: none;			
-}			
+    display: none;
+}
 
-#maingameq footer{
+#maingameq footer {
     margin: 20px 0 0 0;
 }
 
 .neon {
-    color: #fff;
-    text-shadow: 0 0 10px #fff, 0 0 10px #fff, 0 0 150px #fff, 0 0 20px #FF0000, 0 0 350px #FF0000, 0 0 40px #FF0000, 0 0 50px #FF0000, 0 0 75px #FF0000;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF, 
+                 0 0 20px #00BFFF, 
+                 0 0 30px #00BFFF, 
+                 0 0 40px #0000FF, 
+                 0 0 70px #0000FF, 
+                 0 0 80px #0000FF;
 }
 
 /* Buttons */
-.link{
-    padding:6px;
-    float:left;
+.link {
+    padding: 6px;
+    float: left;
     text-align: center;
-    text-decoration: none;    		
-     border:1px solid #ffffff40;
-     border-radius:5px;
-     color:#ccc;
-     margin-right:10px;
-     padding:10px 10px 10px 10px;
-    /* effects*/
+    text-decoration: none;
+    border: 1px solid #00BFFF;
+    border-radius: 5px;
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
+    margin-right: 10px;
+    padding: 10px 10px 10px 10px;
     transition: 0.4s;
-    opacity:0.7; 
-}
-.link:hover{
-    color:#fff;
-    /* background: radial-gradient(circle, #ba0e19, #1c0202 ); */
-    background: -webkit-radial-gradient(#b6b6b6, #020202);  
-    background: -moz-radial-gradient(#b6b6b6, #020202);  
-    background: -o-radial-gradient(#b6b6b6, #020202);  
-    background: radial-gradient(#b6b6b6, #020202);  
-
-    -webkit-transition: background 1s ease-out;  
-    -moz-transition: background 1s ease-out;  
-    -o-transition: background 1s ease-out;  
-    transition: background 1s ease-out;  
-
-    background-position:100px;  
-    opacity:1;
+    opacity: 0.7;
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
 }
 
-#maingameq footer>div{
-    background: rgba(0, 0, 0, 0.31);
+.link:hover {
+    color: #00FFFF;
+    text-shadow: 0 0 15px #00FFFF, 0 0 30px #00BFFF;
+    background: radial-gradient(#00BFFF, #000000);
+    -webkit-transition: background 1s ease-out;
+    -moz-transition: background 1s ease-out;
+    -o-transition: background 1s ease-out;
+    transition: background 1s ease-out;
+    background-position: 100px;
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.8);
+}
+
+#maingameq footer > div {
+    background: rgba(0, 0, 0, 0.8);
     padding: 12px;
+    border: 1px solid #00BFFF;
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
 }
 
-
-/*
-CENTER
-*/
-
+/* CENTER */
 @media (max-width: 2560px) {
-.qoolContainer .data figure {
-width: calc(20% - 20px);
-}
+    .qoolContainer .data figure {
+        width: calc(20% - 20px);
+    }
 }
 
 @media (max-width: 1920px) {
-.qoolContainer .data figure {
-width: calc(20% - 20px);
-}
+    .qoolContainer .data figure {
+        width: calc(20% - 20px);
+    }
 }
 
 @media (max-width: 1600px) {
-.qoolContainer .data li {
-width: calc(25% - 20px);
-}
+    .qoolContainer .data li {
+        width: calc(25% - 20px);
+    }
 }
 
 @media (max-width: 1200px) {
-.qoolContainer .data figure {
-width: calc(33.33% - 20px);
-}
+    .qoolContainer .data figure {
+        width: calc(33.33% - 20px);
+    }
 }
 
 @media (max-width: 965px) {
-.qoolContainer .data figure {
-width: calc(50% - 20px);
-}
+    .qoolContainer .data figure {
+        width: calc(50% - 20px);
+    }
 }
 
 @media (max-width: 768px) {
-.qoolContainer {
-padding: 1px;
-left: 0;
-right: 0;
-width: 100%;
-margin: 0;
+    .qoolContainer {
+        padding: 1px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+    }
+    .qoolContainer .data figure {
+        width: calc(100% - 20px);
+    }
+    .header {
+        height: auto;
+        max-height: 240px;
+    }
+    .header #c1 {
+        min-width: 100%;
+        text-align: center;
+    }
+    .header #c2 {
+        min-width: 100%;
+        text-align: center;
+    }
+    .header h1 {
+        text-align: center;
+    }
 }
-.qoolContainer .data figure {
-width: calc(100% - 20px);
-}
-.header {
-height: auto;
-max-height: 240px;
-}
-.header #c1 {
-min-width: 100%;
-text-align: center;
-}
-.header #c2 {
-min-width: 100%;
-text-align: center;
-}
-
-/*	
-.header #c3 {
-min-width: 100%;
-text-align: center;
-}
-*/	
-.header img {
-text-align: center;
-/*	font-size: 130%; */
-}
-.header a {
-text-align: center;
-display: block;
-}
-.header h1 {
-text-align: center;
-/*	font-size: 130%; */
-}
-}
-
-
 /* -----------------------------------
 byman - 	END
 ------------------------------------- */
 
-.logo{
-    height:100px;
+.logo {
+    height: 100px;
     background: url('/monitor/images/q3msk7.png');
     background-repeat: no-repeat;
     background-size: contain;
     width: 200px;
     margin: auto;
+    filter: drop-shadow(0 0 15px #00BFFF);
 }
 
-.bg{
+.bg {
     background: url('/monitor/images/bg.png');
+    background-color: #000000;
 }
 
-.links{
+.links {
     display: block;
     margin: auto;
     width: 430px;
 }
 
+/* Additional Luminous Text Classes */
+.luminous-text {
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF, 
+                 0 0 20px #00BFFF, 
+                 0 0 30px #0000FF;
+}
+
+.luminous-strong {
+    color: #00FFFF;
+    text-shadow: 0 0 15px #00FFFF, 
+                 0 0 30px #00BFFF, 
+                 0 0 45px #0000FF;
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -334,16 +362,42 @@ byman - 	END
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #000;
+    background: #000000;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #ffffff50;
+    background: #00BFFF;
     border-radius: 3px;
+    box-shadow: 0 0 10px #00BFFF;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #00FFFF;
+    box-shadow: 0 0 15px #00BFFF;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #00BFFF;
+    text-shadow: 0 0 15px #00BFFF, 0 0 30px #0000FF;
+}
+
+/* Paragraphs and general text */
+p, span, div, a {
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
+}
+
+/* Links */
+a {
+    color: #00BFFF;
+    text-shadow: 0 0 10px #00BFFF;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #00FFFF;
+    text-shadow: 0 0 15px #00FFFF, 0 0 30px #00BFFF;
 }
