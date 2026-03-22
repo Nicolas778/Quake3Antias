@@ -1,79 +1,27 @@
-import json
-import socket
-from datetime import datetime
+name: Update Server Status
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.settimeout(5)
-    message = b'\xff\xff\xff\xffgetinfo xxx'
-    
-    try:
-        sock.sendto(message, (host, port))
-        data, addr = sock.recvfrom(8192)
-        response = data.decode('latin-1')
-        
-        # Dividir la respuesta en líneas
-        lines = response.split('\n')
-        
-        server_info = {}
-        players = []
-        
-        for line in lines:
-            line = line.strip()
-            
-            # Saltar líneas vacías y el header infoResponse
-            if not line or 'inforesponse' in line.lower() or line.startswith('\\'):
-                continue
-            
-            # Parsear key-value pairs (empiezan con \)
-            if line.startswith('\\'):
-                parts = line.split('\\')
-                for i in range(1, len(parts), 2):
-                    if i+1 < len(parts):
-                        key = parts[i].strip()
-                        value = parts[i+1].strip()
-                        if key and value:
-                            server_info[key] = value
-            else:
-                # Esto debería ser un nombre de jugador
-                # Filtrar texto que no sea un jugador válido
-                if line and len(line) > 2 and not line.startswith('\\\\'):
-                    # Remover caracteres de control
-                    clean_name = line.replace('\r', '').strip()
-                    if clean_name and not clean_name.startswith('\\'):
-                        players.append(clean_name)
-        
-        # Filtrar jugadores vacíos o duplicados
-        players = list(set([p for p in players if p and len(p) > 1]))
-        
-        return {
-            'status': 'Online',
-            'map': server_info.get('mapname', 'unknown'),
-            'players': players,
-            'playerCount': len(players),
-            'maxPlayers': int(server_info.get('sv_maxclients', 64)),
-            'gameType': server_info.get('g_gametype', 'FFA'),
-            'lastUpdate': datetime.utcnow().isoformat() + 'Z'
-        }
-    except Exception as e:
-        print(f'Error: {e}')
-        return {
-            'status': 'Offline',
-            'map': 'unknown',
-            'players': [],
-            'playerCount': 0,
-            'maxPlayers': 64,
-            'gameType': 'FFA',
-            'lastUpdate': datetime.utcnow().isoformat() + 'Z'
-        }
-    finally:
-        sock.close()
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
-result = query_quake3_server('videos-shut.gl.at.ply.gg', 5291)
-
-with open('server-data.json', 'w') as f:
-    json.dump(result, f, indent=2)
-
-print(f"✓ Updated: {result['playerCount']}/{result['maxPlayers']} on {result['map']}")
-print(f"Players: {result['players'][:5]}")  # Mostrar primeros 5 jugadores
-
-Fix player list parsing
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Query Quake 3 Server
+        run: python query-server.py
+      
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add server-data.json
+          git diff --staged --quiet || git commit -m "Update server [skip ci]"
+          git push
