@@ -27,8 +27,8 @@ def query_quake3_server(host, port):
                 continue
             
             # Skip the infoResponse header
-            if 'inforesponse' in line.lower():
-                continue
+
+ 
             
             # Parse server info (key-value pairs starting with \)
             if line.startswith('\\'):
