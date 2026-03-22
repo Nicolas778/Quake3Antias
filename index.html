@@ -7,16 +7,187 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q3Antias.NET - Quake 3 Servers</title>
-    <title>Q3Antias - Quake 3 Servers</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
+            background-color: #000000;
+            color: #00BFFF;
+            text-shadow: 0 0 10px #00BFFF;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        .header { text-align: center; margin-bottom: 50px; padding-bottom: 20px; border-bottom: 1px solid #00BFFF; }
+        .logo { width: 120px; height: 120px; filter: drop-shadow(0 0 15px #00BFFF); }
+        .server-title { font-size: 2.5em; margin-top: 15px; }
+        .server-container {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 2px solid #00BFFF;
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+        }
+        .server-header {
+            background: linear-gradient(180deg, rgba(0, 191, 255, 0.2) 0%, transparent 100%);
+            padding: 20px;
+            border-bottom: 1px solid #00BFFF;
+        }
+        .server-name { font-size: 2em; margin-bottom: 10px; }
+        .server-address {
+            font-size: 1.2em;
+            padding: 8px 15px;
+            background-color: rgba(0, 191, 255, 0.1);
+            border: 1px dashed #00BFFF;
+            display: inline-block;
+        }
+        .server-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 0;
+        }
+        .server-info, .map-display, .player-info { padding: 25px; }
+        .map-display { text-align: center; border-left: 1px solid #00BFFF; border-right: 1px solid #00BFFF; }
 
+        <div class="player-section">
+    <h3>Players Online (<span id="playerCount">13</span>/64)</h3>
+    <ul class="player-list" id="playerList">
+        <li>Loading players...</li>
+    </ul>
+</div>
+
+<style>
+.player-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #000;
+    border: 2px solid #008FFF;
+    border-radius: 5px;
+}
+
+.player-section h3 {
+    color: #008FFF;
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    border-bottom: 1px dashed #004488;
+    padding-bottom: 5px;
+}
+
+.player-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.player-list li {
+    padding: 8px 10px;
+    color: #00FFFF;
+    border-bottom: 1px dashed #004488;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.player-list li:last-child {
+    border-bottom: none;
+}
+
+.player-list li:hover {
+    background: #001133;
+}
+
+.player-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.player-list::-webkit-scrollbar-track {
+    background: #000;
+}
+
+.player-list::-webkit-scrollbar-thumb {
+    background: #008FFF;
+    border-radius: 4px;
+}
+</style>
+
+<script>
+async function loadServerData() {
+    try {
+        // Fetch the JSON file created by GitHub Actions
+        const response = await fetch('server-data.json?t=' + new Date().getTime());
+        const data = await response.json();
+        
+        // Update player count
+        document.getElementById('playerCount').textContent = 
+            `${data.playerCount}/${data.maxPlayers}`;
+        
+        // Update map name if element exists
+        const mapNameEl = document.getElementById('mapName');
+        if (mapNameEl) {
+            mapNameEl.textContent = data.map;
+        }
+        
+        // Update map image if element exists
+        const mapImageEl = document.getElementById('mapImage');
+        if (mapImageEl) {
+            mapImageEl.src = `maps/${data.map}.jpg`;
+        }
+        
+        // Update player list
+        const playerList = document.getElementById('playerList');
+        if (playerList && data.players.length > 0) {
+            playerList.innerHTML = '';
+            data.players.forEach(player => {
+                const li = document.createElement('li');
+                li.textContent = player;
+                playerList.appendChild(li);
+            });
+        } else if (playerList) {
+            playerList.innerHTML = '<li style="color: #666;">No players online</li>';
+        }
+        
+    } catch (error) {
+        console.error('Error loading server data:', error);
+    }
+}
+
+// Load data when page loads
+loadServerData();
+
+// Refresh every 30 seconds
+setInterval(loadServerData, 30000);
+</script>
+        .map-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border: 2px solid #00BFFF;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+            margin-bottom: 15px;
+            background-color: #000;
+        }
+        .map-name { font-size: 1.3em; font-weight: bold; margin-top: 10px; }
+        .info-label { font-size: 1.1em; margin-bottom: 8px; }
+        .info-value { font-size: 1.4em; font-weight: bold; margin-bottom: 20px; }
+        .divider { border-top: 1px dashed #00BFFF; margin: 20px 0; }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #00FF00;
+            box-shadow: 0 0 10px #00FF00;
+            margin-right: 10px;
+        }
+        @media (max-width: 768px) {
+            .server-content { grid-template-columns: 1fr; }
+            .map-display { border-left: none; border-right: none; border-top: 1px solid #00BFFF; border-bottom: 1px solid #00BFFF; }
+        }
+    </style>
+</head>
 <body>
     <div class="header">
         <img src="logo.png" alt="Q3Antias Logo" class="logo">
         <div class="server-title">Q3ANTIAS.NET</div>
-        <div class="server-title">Q3ANTIAS</div>
     </div>
 
     <div class="server-container">
