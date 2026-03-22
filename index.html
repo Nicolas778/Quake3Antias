@@ -1,141 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q3Antias.NET - Quake 3 Servers</title>
+    <title>Q3Antias - Quake 3 Servers</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            background-color: #000000;
-            color: #00BFFF;
-            text-shadow: 0 0 10px #00BFFF;
+            background: #000;
+            color: #00FFFF;
             font-family: 'Courier New', monospace;
             padding: 20px;
         }
-        .header { text-align: center; margin-bottom: 50px; padding-bottom: 20px; border-bottom: 1px solid #00BFFF; }
-        .logo { width: 120px; height: 120px; filter: drop-shadow(0 0 15px #00BFFF); }
-        .server-title { font-size: 2.5em; margin-top: 15px; }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header img {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            color: #008FFF;
+            font-size: 32px;
+            letter-spacing: 3px;
+        }
+        
         .server-container {
-            max-width: 900px;
+            border: 2px solid #008FFF;
+            background: linear-gradient(to bottom, #001122, #000810);
+            max-width: 1200px;
             margin: 0 auto;
-            border: 2px solid #00BFFF;
-            box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
         }
+        
         .server-header {
-            background: linear-gradient(180deg, rgba(0, 191, 255, 0.2) 0%, transparent 100%);
-            padding: 20px;
-            border-bottom: 1px solid #00BFFF;
+            padding: 15px 20px;
+            border-bottom: 2px solid #008FFF;
         }
-        .server-name { font-size: 2em; margin-bottom: 10px; }
+        
+        .server-header h2 {
+            color: #008FFF;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
         .server-address {
-            font-size: 1.2em;
-            padding: 8px 15px;
-            background-color: rgba(0, 191, 255, 0.1);
-            border: 1px dashed #00BFFF;
+            border: 1px dashed #008FFF;
+            padding: 8px 12px;
             display: inline-block;
+            color: #00FFFF;
+            font-size: 14px;
         }
+        
         .server-content {
             display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            gap: 0;
+            grid-template-columns: 250px 300px 1fr;
+            min-height: 400px;
         }
-        .server-info, .map-display, .player-info { padding: 25px; }
-        .map-display 
+        
+        .server-info {
+            padding: 20px;
+            border-right: 1px solid #008FFF;
+        }
+        
+        .info-section {
+            margin-bottom: 20px;
+        }
+        
+        .info-section h3 {
+            color: #008FFF;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .info-section .value {
+            color: #00FFFF;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .info-section .online {
+            color: #00FF00;
+        }
+        
+        .map-section {
+            padding: 20px;
+            border-right: 1px solid #008FFF;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+        }
+        
+        .map-display {
+            border: 2px solid #008FFF;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
         .map-image {
-            width: 100%;
-            max-width: 500px;
+            display: block;
+            max-width: 250px;
+            max-height: 250px;
+            width: auto;
             height: auto;
-            aspect-ratio: 4/3;
-            object-fit: cover;
-}
         }
-        .map-name { font-size: 1.3em; font-weight: bold; margin-top: 10px; }
-        .info-label { font-size: 1.1em; margin-bottom: 8px; }
-        .info-value { font-size: 1.4em; font-weight: bold; margin-bottom: 20px; }
-        .divider { border-top: 1px dashed #00BFFF; margin: 20px 0; }
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #00FF00;
-            box-shadow: 0 0 10px #00FF00;
-            margin-right: 10px;
+        
+        .map-name {
+            color: #008FFF;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
         }
-        @media (max-width: 768px) {
-            .server-content { grid-template-columns: 1fr; }
-            .map-display { border-left: none; border-right: none; border-top: 1px solid #00BFFF; border-bottom: 1px solid #00BFFF; }
+        
+        .player-section {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .player-section h3 {
+            color: #008FFF;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed #004488;
+        }
+        
+        .player-list {
+            list-style: none;
+        }
+        
+        .player-list li {
+            padding: 8px 10px;
+            color: #00FFFF;
+            border-bottom: 1px dashed #004488;
+            font-size: 14px;
+        }
+        
+        .player-list li:hover {
+            background: rgba(0, 128, 255, 0.2);
+        }
+        
+        .player-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .player-section::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .player-section::-webkit-scrollbar-track {
+            background: #000;
+        }
+        
+        .player-section::-webkit-scrollbar-thumb {
+            background: #008FFF;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="logo.png" alt="Q3Antias Logo" class="logo">
-        <div class="server-title">Q3ANTIAS.NET</div>
+        <img src="logo.png" alt="Q3Antias Logo">
+        <h1>Q3ANTIAS.NET</h1>
     </div>
-
+    
     <div class="server-container">
         <div class="server-header">
-            <div class="server-name">
-                <span class="status-indicator" id="statusIndicator"></span>
-                <span id="serverName">Antias FFA</span>
-            </div>
+            <h2>Antias FFA</h2>
             <div class="server-address">videos-shut.gl.at.ply.gg:5291</div>
         </div>
-
+        
         <div class="server-content">
             <div class="server-info">
-                <div class="info-label">Server Status</div>
-                <div class="info-value" style="color: #00FF00;">Online</div>
-                <div class="divider"></div>
-                <div class="info-label">Players</div>
-                <div class="info-value"><span id="playerCount">13</span>/<span id="maxPlayers">64</span></div>
-                <div class="divider"></div>
-                <div class="info-label">Game Type</div>
-                <div class="info-value">FFA</div>
+                <div class="info-section">
+                    <h3>Server Status</h3>
+                    <div class="value online" id="serverStatus">Online</div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>Players</h3>
+                    <div class="value" id="playerCount">13/64</div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>Game Type</h3>
+                    <div class="value" id="gameType">FFA</div>
+                </div>
             </div>
-
-            <div class="map-display">
-    <img src="maps/q3dm12.jpg"
-        alt="Current Map"
-        class="map-image"
-        id="mapImage"
-        onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/000000/008FFF?text=Map+Not+Found'"
-    >
-    <div class="map-name" id="mapName">q3dm12</div>
-</div>
-
-<script>
-// Function to update map image based on current map
-function updateMapImage(mapName) {
-    const mapImage = document.getElementById('mapImage');
-    const mapImagePath = `maps/${mapName}.jpg`;
-
-    // Set the new image source
+            
+            <div class="map-section">
+                <div class="map-display">
+                    <img src="maps/q3dm12.jpg" alt="Current Map" class="map-image" id="mapImage"
+                         onerror="this.src='https://via.placeholder.com/250x250/000000/008FFF?text=Map+Not+Found'">
+                </div>
+                <div class="map-name" id="mapName">q3dm12</div>
+            </div>
+            
+            <div class="player-section">
+                <h3>Players Online (<span id="playerListCount">13</span>/64)</h3>
+                <ul class="player-list" id="playerList">
+                    <li>Loading players...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
     
-    mapImage.src = mapImagePath;
-
-    // Handle error if image doesn't exist
-
-    mapImage.onerror = function() {
-        this.onerror = null;
-        this.src = 'https://via.placeholder.com/400x300/000000/008FFF?text=Map+Not+Found';
-    };
-}
-
-// Call this function when your server data updates
-// Example: updateMapImage('ztn3tourney1');
-
-
-
+    <script>
+    async function loadServerData() {
+        try {
+            const response = await fetch('server-data.json?t=' + new Date().getTime());
+            const data = await response.json();
+            
+            // Update player count
+            document.getElementById('playerCount').textContent = 
+                `${data.playerCount}/${data.maxPlayers}`;
+            document.getElementById('playerListCount').textContent = data.playerCount;
+            
+            // Update map
+            document.getElementById('mapName').textContent = data.map;
+            document.getElementById('mapImage').src = `maps/${data.map}.jpg`;
+            
+            // Update player list
+            const playerList = document.getElementById('playerList');
+            if (data.players && data.players.length > 0) {
+                playerList.innerHTML = '';
+                data.players.forEach(player => {
+                    const li = document.createElement('li');
+                    li.textContent = player;
+                    playerList.appendChild(li);
+                });
+            } else {
+                playerList.innerHTML = '<li style="color: #666;">No players online</li>';
+            }
+        } catch (error) {
+            console.error('Error loading server data:', error);
+        }
+    }
     
-</script>
+    // Load on page load
+    loadServerData();
+    // Refresh every 30 seconds
+    setInterval(loadServerData, 30000);
+    </script>
 </body>
 </html>
