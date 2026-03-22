@@ -2,7 +2,6 @@ import json
 import socket
 from datetime import datetime
 
-def query_quake3_server(host, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.settimeout(5)
     message = b'\xff\xff\xff\xffgetinfo xxx'
