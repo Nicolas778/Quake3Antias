@@ -6,6 +6,7 @@ def query_quake3_server(host, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.settimeout(5)
     
+    # Quake 3 getinfo request
     message = b'\xff\xff\xff\xffgetinfo xxx'
     
     try:
@@ -17,18 +18,24 @@ def query_quake3_server(host, port):
         
         server_info = {}
         players = []
+        in_players_section = False
         
         for line in lines:
             if line.startswith('\\'):
                 parts = line.split('\\')
                 for i in range(1, len(parts), 2):
                     if i+1 < len(parts):
-                        server_info[parts[i]] = parts[i+1]
+                        key = parts[i]
+                        value = parts[i+1]
+                        server_info[key] = value
             elif line and not line.startswith('info') and not line.startswith('\\'):
-                if line.strip() and len(line.strip()) > 1:
-                    players.append(line.strip())
+                # Player names are in the response
+                clean_name = line.strip()
+                if clean_name and len(clean_name) > 1:
+                    players.append(clean_name)
         
-        players = [p for p in players if p]
+        # Filter out empty entries
+        players = [p for p in players if p and p.strip()]
         
         return {
             'status': 'Online',
@@ -39,17 +46,19 @@ def query_quake3_server(host, port):
             'lastUpdate': datetime.utcnow().isoformat() + 'Z'
         }
     except Exception as e:
-        print(f'Error: {e}')
+        print(f'Error querying server: {e}')
         return None
     finally:
         sock.close()
 
+# Query your server
 result = query_quake3_server('videos-shut.gl.at.ply.gg', 5291)
 
 if result:
     with open('server-data.json', 'w') as f:
         json.dump(result, f, indent=2)
-    print(f"✓ Updated: {result['playerCount']}/{result['maxPlayers']} on {result['map']}")
+    print(f"✓ Success: {result['playerCount']}/{result['maxPlayers']} players on {result['map']}")
+    print(f"Players: {', '.join(result['players'][:5])}...")  # Show first 5
 else:
-    print('✗ Failed')
+    print('✗ Failed to query server')
     exit(1)
