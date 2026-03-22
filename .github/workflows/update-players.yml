@@ -1,0 +1,53 @@
+name: Update Server Status
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Runs every 5 minutes
+  workflow_dispatch:       # Allows you to run it manually for testing
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Quake 3 Query Tool
+        run: npm install gamedig
+
+      - name: Query Server & Update JSON
+        run: |
+          node -e "
+          const Gamedig = require('gamedig');
+          const fs = require('fs');
+          Gamedig.query({
+              type: 'quake3',
+              host: 'videos-shut.gl.at.ply.gg',
+              port: 5291
+          }).then((state) => {
+              const data = {
+                  status: 'Online',
+                  players: state.players.map(p => p.name),
+                  playerCount: state.players.length,
+                  maxPlayers: state.maxplayers,
+                  map: state.map,
+                  lastUpdate: new Date().toISOString()
+              };
+              fs.writeFileSync('server-data.json', JSON.stringify(data, null, 2));
+          }).catch((error) => {
+              console.log('Server offline or query failed');
+              process.exit(1);
+          });"
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add server-data.json
+          git diff --staged --quiet || git commit -m "Auto-update server status [skip ci]"
+          git push
