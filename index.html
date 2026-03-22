@@ -112,26 +112,22 @@
 </div>
 
 <script>
-// Function to update map image based on current map
 function updateMapImage(mapName) {
     const mapImage = document.getElementById('mapImage');
     const mapImagePath = `maps/${mapName}.jpg`;
     
-    // Set the new image source
+    
     mapImage.src = mapImagePath;
     
-    // Handle error if image doesn't exist
+
     mapImage.onerror = function() {
         this.onerror = null;
         this.src = 'https://via.placeholder.com/400x300/000000/008FFF?text=Map+Not+Found';
     };
 }
 
-// Call this function when your server data updates
-// Example: updateMapImage('ztn3tourney1');
 
-
-
+    
 </script>
 </body>
 </html>
