@@ -45,109 +45,33 @@
         }
         .server-info, .map-display, .player-info { padding: 25px; }
         .map-display { text-align: center; border-left: 1px solid #00BFFF; border-right: 1px solid #00BFFF; }
-
-        <div class="player-section">
-    <h3>Players Online (<span id="playerCount">13</span>/64)</h3>
-    <ul class="player-list" id="playerList">
-        <li>Loading players...</li>
-    </ul>
-</div>
-
-<style>
-.player-section {
-    margin-top: 20px;
-    padding: 15px;
-    background: #000;
-    border: 2px solid #008FFF;
-    border-radius: 5px;
-}
-
-.player-section h3 {
-    color: #008FFF;
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    border-bottom: 1px dashed #004488;
-    padding-bottom: 5px;
-}
-
-.player-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.player-list li {
-    padding: 8px 10px;
-    color: #00FFFF;
-    border-bottom: 1px dashed #004488;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-}
-
-.player-list li:last-child {
-    border-bottom: none;
-}
-
-.player-list li:hover {
-    background: #001133;
-}
-
-.player-list::-webkit-scrollbar {
-    width: 8px;
-}
-
-.player-list::-webkit-scrollbar-track {
-    background: #000;
-}
-
-.player-list::-webkit-scrollbar-thumb {
-    background: #008FFF;
-    border-radius: 4px;
-}
-</style>
-
-<script>
-async function loadServerData() {
-    try {
-        // Fetch the JSON file created by GitHub Actions
-        const response = await fetch('server-data.json?t=' + new Date().getTime());
-        const data = await response.json();
-        
-        // Update player count
-        document.getElementById('playerCount').textContent = 
-            `${data.playerCount}/${data.maxPlayers}`;
-        
-        // Update map name if element exists
-        const mapNameEl = document.getElementById('mapName');
-        if (mapNameEl) {
-            mapNameEl.textContent = data.map;
+        .map-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            object-fit: cover;
+            border: 2px solid #00BFFF;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+            margin-bottom: 15px;
+            background-color: #000;
         }
-        
-        // Update map image if element exists
-        const mapImageEl = document.getElementById('mapImage');
-        if (mapImageEl) {
-            mapImageEl.src = `maps/${data.map}.jpg`;
+        .map-name { font-size: 1.3em; font-weight: bold; margin-top: 10px; }
+        .info-label { font-size: 1.1em; margin-bottom: 8px; }
+        .info-value { font-size: 1.4em; font-weight: bold; margin-bottom: 20px; }
+        .divider { border-top: 1px dashed #00BFFF; margin: 20px 0; }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #00FF00;
+            box-shadow: 0 0 10px #00FF00;
+            margin-right: 10px;
         }
-        
-        // Update player list
-        const playerList = document.getElementById('playerList');
-        if (playerList && data.players.length > 0) {
-            playerList.innerHTML = '';
-            data.players.forEach(player => {
-                const li = document.createElement('li');
-                li.textContent = player;
-                playerList.appendChild(li);
-            });
-        } else if (playerList) {
-            playerList.innerHTML = '<li style="color: #666;">No players online</li>';
+        @media (max-width: 768px) {
+            .server-content { grid-template-columns: 1fr; }
+            .map-display { border-left: none; border-right: none; border-top: 1px solid #00BFFF; border-bottom: 1px solid #00BFFF; }
         }
-        
-    } catch (error) {
-        console.error('Error loading server data:', error);
-    }
-}
     </style>
 </head>
 <body>
@@ -188,13 +112,16 @@ async function loadServerData() {
 </div>
 
 <script>
+// Function to update map image based on current map
 function updateMapImage(mapName) {
     const mapImage = document.getElementById('mapImage');
     const mapImagePath = `maps/${mapName}.jpg`;
 
-
+    // Set the new image source
+    
     mapImage.src = mapImagePath;
 
+    // Handle error if image doesn't exist
 
     mapImage.onerror = function() {
         this.onerror = null;
@@ -202,8 +129,12 @@ function updateMapImage(mapName) {
     };
 }
 
+// Call this function when your server data updates
+// Example: updateMapImage('ztn3tourney1');
 
 
+
+    
 </script>
 </body>
 </html>
